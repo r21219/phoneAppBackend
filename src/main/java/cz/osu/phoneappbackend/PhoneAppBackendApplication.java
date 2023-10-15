@@ -9,5 +9,5 @@ public class PhoneAppBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(PhoneAppBackendApplication.class, args);
     }
-
+//FIXME AHOJ
 }
