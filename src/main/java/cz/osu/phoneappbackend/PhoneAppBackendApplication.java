@@ -1,4 +1,4 @@
-package com.example.phoneappbackend;
+package cz.osu.phoneappbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
