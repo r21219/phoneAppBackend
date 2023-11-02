@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MQConfig {
+    //Todo specify program
+    // each converastion will have an id
     public static final String QUEUE = "message_queue";
     public static final String EXCHANGE = "message_exchange";
     public static final String ROUTING_KEY = "MESSAGE_ROUTING_KEY";
