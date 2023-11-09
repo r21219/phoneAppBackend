@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Configuration;
 public class MQConfig {
     //Todo specify program
     // each converastion will have an id
+
+    //TODO
+    // split this into producer and consumer instead otherwise it could cause mayhem
     public static final String QUEUE = "message_queue";
     public static final String EXCHANGE = "message_exchange";
     public static final String ROUTING_KEY = "MESSAGE_ROUTING_KEY";
@@ -43,4 +46,5 @@ public class MQConfig {
         template.setMessageConverter(messageConverter());
         return template;
     }
+
 }
