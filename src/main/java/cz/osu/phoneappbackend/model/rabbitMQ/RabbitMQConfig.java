@@ -1,8 +1,10 @@
-package cz.osu.phoneappbackend.model;
+package cz.osu.phoneappbackend.model.rabbitMQ;
 
-
-
-import org.springframework.amqp.core.*;
+import cz.osu.phoneappbackend.model.ExchangeType;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -11,31 +13,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MQConfig {
-    //Todo specify program
-    // each converastion will have an id
+public class RabbitMQConfig {
 
-    //TODO
-    // split this into producer and consumer instead otherwise it could cause mayhem
-    public static final String QUEUE = "message_queue";
-    public static final String EXCHANGE = "message_exchange";
-    public static final String ROUTING_KEY = "MESSAGE_ROUTING_KEY";
     @Bean
-    public Queue queue(){
-        return new Queue(QUEUE);
+    public TopicExchange topicExchange(){
+        return new TopicExchange(ExchangeType.TOPIC.toString());
     }
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE);
+    public DirectExchange directExchange(){
+        return new DirectExchange(ExchangeType.DIRECT.toString());
     }
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange){
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange)
-                .with(ROUTING_KEY);
+    public FanoutExchange fanoutExchange(){
+        return new FanoutExchange(ExchangeType.FANOUT.toString());
     }
-
     @Bean
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
@@ -46,5 +37,4 @@ public class MQConfig {
         template.setMessageConverter(messageConverter());
         return template;
     }
-
 }
