@@ -1,5 +1,8 @@
 package cz.osu.phoneappbackend.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +14,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserGroup {
+@Entity
+public class CustomerConversation {
+    @Id
     private String routingKey;
     private String name;
-    private List<AppUser> users;
+    @ManyToMany
+    private List<Customer> customers;
 }
