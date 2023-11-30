@@ -33,7 +33,9 @@ public class MessageService {
         });
         List<Customer> customers = new ArrayList<>();
         createQueues(customers,exchange,routingKey,createRequest);
-        CustomerConversation newCustomerConversation = new CustomerConversation(routingKey,
+        CustomerConversation newCustomerConversation = new CustomerConversation(
+                routingKey,
+                createRequest.createExchangeName(),
                 createRequest.getConversationName(), customers);
         customerConversationRepo.save(newCustomerConversation);
     }

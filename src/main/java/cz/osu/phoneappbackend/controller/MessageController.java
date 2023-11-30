@@ -29,4 +29,12 @@ public class MessageController {
     public ResponseEntity<String> receiveMessage(){
         return ResponseEntity.ok("THIS METHOD IS YET TO BE DEVELOPED ;) ");
     }
+    @PostMapping("/register")
+    public ResponseEntity<String> register(){
+        return ResponseEntity.ok("THIS METHOD IS YET TO BE DEVELOPED ;) ");
+    }
+    @PostMapping("/Login")
+    public ResponseEntity<String> login(){
+        return ResponseEntity.ok("THIS METHOD IS YET TO BE DEVELOPED ;) ");
+    }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerConversationRepository extends JpaRepository<CustomerConversation, String> {
+    CustomerConversation findByNameAndCustomers_UserName(String conversationName, String customerName);
 }

@@ -18,6 +18,7 @@ import java.util.List;
 public class CustomerConversation {
     @Id
     private String routingKey;
+    private String topicName;
     private String name;
     @ManyToMany
     private List<Customer> customers;
