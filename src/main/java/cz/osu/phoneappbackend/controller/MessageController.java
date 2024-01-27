@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class MessageController {
     private final RabbitMQProducer producer;
     private final MessageService service;
+    //TODO create a get request for every chat/group that logged in user has
     @PostMapping("/create")
     public ResponseEntity<String> createConversation(CreateRequest createRequest){
         service.createConversation(createRequest);
@@ -27,7 +28,12 @@ public class MessageController {
     //TODO make dynamic endRoutes
     @GetMapping("/receive")
     public ResponseEntity<String> receiveMessage(){
+
         return ResponseEntity.ok("THIS METHOD IS YET TO BE DEVELOPED ;) ");
+    }
+    @GetMapping("/conversation")
+    public ResponseEntity<String> getConversation(){
+        return null;
     }
     @PostMapping("/register")
     public ResponseEntity<String> register(){

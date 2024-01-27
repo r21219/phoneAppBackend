@@ -10,3 +10,17 @@ For problem solving
 * Proof of Concept
 * Add functionality during development
 * Presentation
+
+```mermaid
+sequenceDiagram
+    participant FE
+    participant BE
+    FE->>BE: [POST] Registers user to the app
+    FE->>BE: [POST] Login to the app
+    FE->>BE: [POST] Create group/chat
+    BE->>FE: Sends confirmation
+    FE->>BE: [GET] Get all groups/chats for logged in user
+    FE->>BE: [POST] Posts a message
+    BE->>FE: [WS] Sends RoutingKey and TopicName
+    FE->>BE: [GET] Get conversation by RoutingKey and TopicName
+```

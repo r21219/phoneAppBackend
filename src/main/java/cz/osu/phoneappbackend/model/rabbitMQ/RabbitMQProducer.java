@@ -1,6 +1,5 @@
 package cz.osu.phoneappbackend.model.rabbitMQ;
 
-import cz.osu.phoneappbackend.model.CustomerConversation;
 import cz.osu.phoneappbackend.model.CustomerMessage;
 import cz.osu.phoneappbackend.repository.CustomerConversationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +20,9 @@ public class RabbitMQProducer {
 
     //TODO fetch data from database instead
     public void sendMessage(CustomerMessage message){
-        CustomerConversation conversation = customerConversationRepo.findByNameAndCustomers_UserName(message.getReceiver(), message.getSender());
-        rabbitTemplate.convertAndSend(conversation.getTopicName(), conversation.getRoutingKey(), message.getContent());
-            messagingTemplate.convertAndSendToUser(
-                message.getReceiver(), "/queue/notify", "new message");
+        //FIXME uncomment
+        //CustomerConversation conversation = customerConversationRepo.findByNameAndCustomers_UserName(message.getReceiver(), message.getSender());
+        //rabbitTemplate.convertAndSend(conversation.getTopicName(), conversation.getRoutingKey(), message.getContent());
+        messagingTemplate.convertAndSend("/topic/msg", message);
     }
 }
