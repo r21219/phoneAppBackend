@@ -1,16 +1,14 @@
 package cz.osu.phoneappbackend.model;
 
+import cz.osu.phoneappbackend.model.conversation.CustomerConversation;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {

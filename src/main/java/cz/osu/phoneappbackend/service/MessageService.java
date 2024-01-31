@@ -1,9 +1,12 @@
 package cz.osu.phoneappbackend.service;
 
 import cz.osu.phoneappbackend.model.Customer;
-import cz.osu.phoneappbackend.model.CreateRequest;
-import cz.osu.phoneappbackend.model.CustomerConversation;
+import cz.osu.phoneappbackend.model.ModelConvertor;
+import cz.osu.phoneappbackend.model.conversation.CustomerConversationDTO;
+import cz.osu.phoneappbackend.model.conversation.CreateConversationRequest;
+import cz.osu.phoneappbackend.model.conversation.CustomerConversation;
 import cz.osu.phoneappbackend.model.ExchangeType;
+import cz.osu.phoneappbackend.model.exception.NotFoundException;
 import cz.osu.phoneappbackend.model.rabbitMQ.RabbitMQConsumer;
 import cz.osu.phoneappbackend.repository.CustomerRepository;
 import cz.osu.phoneappbackend.repository.CustomerConversationRepository;
@@ -24,7 +27,7 @@ public class MessageService {
     private final RabbitMQConsumer rabbitMQConsumer;
     private final CustomerConversationRepository customerConversationRepo;
     private final CustomerRepository customerRep;
-    public void createConversation(CreateRequest createRequest){
+    public void createConversation(CreateConversationRequest createRequest){
         TopicExchange exchange = new TopicExchange(createRequest.createExchangeName());
         String routingKey = createRequest.getConversationName() + UUID.randomUUID();
         rabbitTemplate.execute(channel -> {
@@ -40,7 +43,7 @@ public class MessageService {
         customerConversationRepo.save(newCustomerConversation);
     }
 
-    private void createQueues(List<Customer> customers, TopicExchange exchange, String routingKey,CreateRequest createRequest){
+    private void createQueues(List<Customer> customers, TopicExchange exchange, String routingKey, CreateConversationRequest createRequest){
         for(String customer: createRequest.getCustomers()){
             Queue queue = new Queue(createRequest.createCustomerQueue(customer));
             rabbitTemplate.execute(channel -> {
@@ -51,5 +54,11 @@ public class MessageService {
             rabbitMQConsumer.createConsumerForQueue(createRequest.createCustomerQueue(customer));
             customers.add(customerRep.findByUserName(customer));
         }
+    }
+
+    public List<CustomerConversationDTO> getAllConversations(String customerName){
+        return ModelConvertor.convertListCustomerConversationToDTO(customerConversationRepo
+                .findAllByCustomers_UserName(customerName)
+                .orElseThrow(()-> new NotFoundException("Could not find any conversations for: " + customerName)));
     }
 }
