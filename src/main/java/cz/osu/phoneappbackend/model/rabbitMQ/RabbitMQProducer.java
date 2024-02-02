@@ -24,6 +24,7 @@ public class RabbitMQProducer {
                         .findByConversationNameAndCustomers_UserName(message.getConversationName(), message.getSender())
                         .orElseThrow(()-> new NotFoundException("Couldn't find conversation under the name: " + message.getConversationName() ));
             rabbitTemplate.convertAndSend(conversation.getTopicName(), conversation.getRoutingKey(), message);
+
         for (Customer customer : conversation.getCustomers()) {
             messagingTemplate.convertAndSendToUser(customer.getUsername(), "/topic/msg/" + customer.getUsername(),
                     ModelConvertor.convertCustomerConversationToDTO(conversation));

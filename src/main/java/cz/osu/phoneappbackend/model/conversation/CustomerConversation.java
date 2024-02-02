@@ -19,5 +19,7 @@ public class CustomerConversation {
     private String topicName;
     private String conversationName;
     @ManyToMany
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Customer> customers;
 }
