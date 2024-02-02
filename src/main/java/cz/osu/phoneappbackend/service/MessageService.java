@@ -1,6 +1,7 @@
 package cz.osu.phoneappbackend.service;
 
-import cz.osu.phoneappbackend.model.Customer;
+import cz.osu.phoneappbackend.model.customer.Customer;
+import cz.osu.phoneappbackend.model.CustomerMessage;
 import cz.osu.phoneappbackend.model.ModelConvertor;
 import cz.osu.phoneappbackend.model.conversation.CustomerConversationDTO;
 import cz.osu.phoneappbackend.model.conversation.CreateConversationRequest;
@@ -31,7 +32,7 @@ public class MessageService {
         TopicExchange exchange = new TopicExchange(createRequest.createExchangeName());
         String routingKey = createRequest.getConversationName() + UUID.randomUUID();
         rabbitTemplate.execute(channel -> {
-            channel.exchangeDeclare(exchange.getName(), ExchangeType.TOPIC.toString());
+            channel.exchangeDeclare(exchange.getName(), ExchangeType.TOPIC.toString().toLowerCase());
             return null;
         });
         List<Customer> customers = new ArrayList<>();
@@ -44,15 +45,16 @@ public class MessageService {
     }
 
     private void createQueues(List<Customer> customers, TopicExchange exchange, String routingKey, CreateConversationRequest createRequest){
-        for(String customer: createRequest.getCustomers()){
-            Queue queue = new Queue(createRequest.createCustomerQueue(customer));
+        for(String userName: createRequest.getUserNames()){
+            Queue queue = new Queue(createRequest.createCustomerQueue(userName));
             rabbitTemplate.execute(channel -> {
                 channel.queueDeclare(queue.getName(), true, false, false, null);
                 channel.queueBind(queue.getName(), exchange.getName(), routingKey);
                 return null;
             });
-            rabbitMQConsumer.createConsumerForQueue(createRequest.createCustomerQueue(customer));
-            customers.add(customerRep.findByUserName(customer));
+            rabbitMQConsumer.createConsumerForQueue(createRequest.createCustomerQueue(userName));
+            customers.add(customerRep.findByUserName(userName).orElseThrow(() ->
+                    new NotFoundException("User under the name: " + userName + "was not found")));
         }
     }
 
@@ -60,5 +62,9 @@ public class MessageService {
         return ModelConvertor.convertListCustomerConversationToDTO(customerConversationRepo
                 .findAllByCustomers_UserName(customerName)
                 .orElseThrow(()-> new NotFoundException("Could not find any conversations for: " + customerName)));
+    }
+
+    public List<CustomerMessage> getMessageForUser(String userName){
+        return rabbitMQConsumer.getMessageForUser(userName);
     }
 }

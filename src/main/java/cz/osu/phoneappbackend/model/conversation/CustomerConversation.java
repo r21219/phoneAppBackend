@@ -1,6 +1,6 @@
 package cz.osu.phoneappbackend.model.conversation;
 
-import cz.osu.phoneappbackend.model.Customer;
+import cz.osu.phoneappbackend.model.customer.Customer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 public class CustomerMessage {
     private String sender;
-    private String receiver;
+    private String conversationName;
     private String content;
     private LocalDateTime timeStamp;
 }

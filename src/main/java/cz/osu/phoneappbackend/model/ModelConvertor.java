@@ -17,7 +17,7 @@ public class ModelConvertor {
 
     public static CustomerConversationDTO convertCustomerConversationToDTO(CustomerConversation customerConversation){
         return CustomerConversationDTO.builder()
-                .name(customerConversation.getConversationName())
+                .conversationName(customerConversation.getConversationName())
                 .routingKey(customerConversation.getRoutingKey())
                 .build();
     }

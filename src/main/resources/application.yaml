@@ -12,4 +12,9 @@ spring:
   config:
     import: optional:application.localUserInfo.yaml
 server:
+  servlet:
+    context-path: /api/v1
   port: 9090
+logging:
+  level:
+    root: DEBUG

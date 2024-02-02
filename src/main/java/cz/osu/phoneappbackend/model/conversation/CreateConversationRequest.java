@@ -9,13 +9,13 @@ import java.util.List;
 @Builder
 public class CreateConversationRequest {
     String conversationName;
-    List<String> customers;
+    List<String> userNames;
 
     public String createExchangeName() {
         return "exchange_" + conversationName;
     }
 
-    public String createCustomerQueue(String customer) {
-        return "customerQueue_" + customer + "-" + conversationName;
+    public String createCustomerQueue(String userName) {
+        return "customerQueue_" + userName + "-" + conversationName;
     }
 }

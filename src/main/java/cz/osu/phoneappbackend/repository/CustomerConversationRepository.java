@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerConversationRepository extends JpaRepository<CustomerConversation, String> {
-    CustomerConversation findByConversationNameAndCustomers_UserName(String conversationName, String customerName);
+    Optional<CustomerConversation> findByConversationNameAndCustomers_UserName(String conversationName, String customerName);
     Optional<List<CustomerConversation>> findAllByCustomers_UserName(String customerName);
 }

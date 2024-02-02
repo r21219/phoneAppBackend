@@ -17,15 +17,15 @@ public class RabbitMQConfig {
 
     @Bean
     public TopicExchange topicExchange(){
-        return new TopicExchange(ExchangeType.TOPIC.toString());
+        return new TopicExchange(ExchangeType.TOPIC.toString().toLowerCase());
     }
     @Bean
     public DirectExchange directExchange(){
-        return new DirectExchange(ExchangeType.DIRECT.toString());
+        return new DirectExchange(ExchangeType.DIRECT.toString().toLowerCase());
     }
     @Bean
     public FanoutExchange fanoutExchange(){
-        return new FanoutExchange(ExchangeType.FANOUT.toString());
+        return new FanoutExchange(ExchangeType.FANOUT.toString().toLowerCase());
     }
     @Bean
     public MessageConverter messageConverter(){

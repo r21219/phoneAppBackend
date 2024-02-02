@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class CustomerConversationDTO {
     private String routingKey;
-    private String name;
+    private String conversationName;
 }
