@@ -2,6 +2,7 @@ package cz.osu.phoneappbackend.model.conversation;
 
 import cz.osu.phoneappbackend.model.customer.Customer;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.*;
@@ -18,7 +19,7 @@ public class CustomerConversation {
     private String routingKey;
     private String topicName;
     private String conversationName;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Customer> customers;

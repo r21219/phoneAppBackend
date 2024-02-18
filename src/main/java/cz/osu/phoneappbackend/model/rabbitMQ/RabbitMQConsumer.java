@@ -40,7 +40,6 @@ public class RabbitMQConsumer {
         }
     }
 
-    //FIXME DO NOT USE THIS METHOD IT CAUSES CYCLIC ERROR UNKNOWN FOR NOW
     private void handleReceivedMessage(CustomerMessage message) {
         CustomerConversation conversation = conversationRepo.findByConversationNameAndCustomers_UserName
                         (message.getConversationName(), message.getSender())
