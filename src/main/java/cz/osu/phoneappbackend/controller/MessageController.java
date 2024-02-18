@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/message")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class MessageController {
     private final RabbitMQProducer producer;
     private final MessageService service;
