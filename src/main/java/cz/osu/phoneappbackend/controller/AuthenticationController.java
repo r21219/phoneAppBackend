@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
     private final CustomerService service;
+
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody CustomerRequest customerRequest) {
-        return ResponseEntity.ok(service.register(customerRequest));
+        AuthenticationResponse response = service.register(customerRequest);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody CustomerRequest customerRequest) {
-        return ResponseEntity.ok(service.login(customerRequest));
+        AuthenticationResponse response = service.login(customerRequest);
+        return ResponseEntity.ok(response);
     }
 }
