@@ -1,24 +1,24 @@
 package cz.osu.phoneappbackend.model;
 
-import cz.osu.phoneappbackend.model.conversation.CustomerConversation;
-import cz.osu.phoneappbackend.model.conversation.CustomerConversationDTO;
+import cz.osu.phoneappbackend.model.conversation.Conversation;
+import cz.osu.phoneappbackend.dto.conversation.CustomerConversationDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModelConvertor {
-    public static List<CustomerConversationDTO> convertListCustomerConversationToDTO(List<CustomerConversation> customerConversations){
+    public static List<CustomerConversationDTO> convertListCustomerConversationToDTO(List<Conversation> conversations){
         List<CustomerConversationDTO> conversationDTOS = new ArrayList<>();
-        for (CustomerConversation customerConversation : customerConversations){
-            conversationDTOS.add(convertCustomerConversationToDTO(customerConversation));
+        for (Conversation conversation : conversations){
+            conversationDTOS.add(convertCustomerConversationToDTO(conversation));
         }
         return conversationDTOS;
     }
 
-    public static CustomerConversationDTO convertCustomerConversationToDTO(CustomerConversation customerConversation){
+    public static CustomerConversationDTO convertCustomerConversationToDTO(Conversation conversation){
         return CustomerConversationDTO.builder()
-                .conversationName(customerConversation.getConversationName())
-                .routingKey(customerConversation.getRoutingKey())
+                .conversationName(conversation.getConversationName())
+                .routingKey(conversation.getRoutingKey())
                 .build();
     }
 }

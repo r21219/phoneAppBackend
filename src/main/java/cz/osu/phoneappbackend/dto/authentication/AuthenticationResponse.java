@@ -1,4 +1,4 @@
-package cz.osu.phoneappbackend.model.authentication;
+package cz.osu.phoneappbackend.dto.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

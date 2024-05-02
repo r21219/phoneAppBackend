@@ -1,10 +1,9 @@
 package cz.osu.phoneappbackend.model.rabbitMQ;
 
-import cz.osu.phoneappbackend.model.CustomerMessage;
-import cz.osu.phoneappbackend.model.conversation.CustomerConversation;
+import cz.osu.phoneappbackend.model.conversation.Conversation;
 import cz.osu.phoneappbackend.model.customer.Customer;
-import cz.osu.phoneappbackend.model.exception.NotFoundException;
-import cz.osu.phoneappbackend.repository.CustomerConversationRepository;
+import cz.osu.phoneappbackend.model.message.Message;
+import cz.osu.phoneappbackend.repository.ConversationRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.amqp.core.MessageListener;
@@ -20,11 +19,12 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+//TODO needs complete rework
 public class RabbitMQConsumer {
     private final ConnectionFactory connectionFactory;
     private final Map<String, SimpleMessageListenerContainer> listenerContainers = new HashMap<>();
-    private final Map<String, List<CustomerMessage>> userMessages = new HashMap<>();
-    private final CustomerConversationRepository conversationRepo;
+    private final Map<String, List<Message>> userMessages = new HashMap<>();
+    private final ConversationRepository conversationRepo;
 
     public void createConsumerForQueue(String queueName) {
         if (!listenerContainers.containsKey(queueName)) {
@@ -32,7 +32,7 @@ public class RabbitMQConsumer {
             container.setQueueNames(queueName);
             container.setMessageListener((MessageListener) message -> {
                 Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-                CustomerMessage customerMessage = (CustomerMessage) converter.fromMessage(message);
+                Message customerMessage = (Message) converter.fromMessage(message);
                 handleReceivedMessage(customerMessage);
             });
             container.start();
@@ -40,10 +40,10 @@ public class RabbitMQConsumer {
         }
     }
 
-    private void handleReceivedMessage(CustomerMessage message) {
-        CustomerConversation conversation = conversationRepo.findByConversationNameAndCustomers_UserName
-                        (message.getConversationName(), message.getSender())
-                .orElseThrow(() -> new NotFoundException("Conversation " + message.getConversationName() + " could not be found"));
+    private void handleReceivedMessage(Message message) {
+        Conversation conversation = conversationRepo.findByConversationNameAndCustomers_UserName
+                        (message.getConversation().getConversationName(), message.getSender().getUsername())
+                .orElseThrow();
         Hibernate.initialize(conversation.getCustomers());
         for (Customer customer : conversation.getCustomers()) {
             String userName = customer.getUsername();
@@ -59,7 +59,7 @@ public class RabbitMQConsumer {
         }
     }
 
-    public List<CustomerMessage> getMessageForUser(String userName) {
+    public List<Message> getMessageForUser(String userName) {
         return userMessages.getOrDefault(userName, new ArrayList<>());
     }
 }

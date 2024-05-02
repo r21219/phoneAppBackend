@@ -1,6 +1,6 @@
 package cz.osu.phoneappbackend.model.customer;
 
-import cz.osu.phoneappbackend.model.conversation.CustomerConversation;
+import cz.osu.phoneappbackend.model.conversation.Conversation;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +26,7 @@ public class Customer implements UserDetails {
     @ManyToMany(mappedBy = "customers")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<CustomerConversation> conversations;
+    private List<Conversation> conversations;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

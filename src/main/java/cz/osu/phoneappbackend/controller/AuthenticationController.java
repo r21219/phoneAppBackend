@@ -1,7 +1,7 @@
 package cz.osu.phoneappbackend.controller;
 
-import cz.osu.phoneappbackend.model.authentication.AuthenticationResponse;
-import cz.osu.phoneappbackend.model.customer.CustomerRequest;
+import cz.osu.phoneappbackend.dto.authentication.AuthenticationResponse;
+import cz.osu.phoneappbackend.dto.customer.CustomerRequest;
 import cz.osu.phoneappbackend.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

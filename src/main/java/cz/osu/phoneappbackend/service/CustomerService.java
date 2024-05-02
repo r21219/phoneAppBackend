@@ -1,11 +1,12 @@
 package cz.osu.phoneappbackend.service;
 
 import cz.osu.phoneappbackend.config.jwt.JwtService;
-import cz.osu.phoneappbackend.model.authentication.AuthenticationResponse;
+import cz.osu.phoneappbackend.dto.authentication.AuthenticationResponse;
 import cz.osu.phoneappbackend.model.customer.Customer;
-import cz.osu.phoneappbackend.model.customer.CustomerRequest;
+import cz.osu.phoneappbackend.dto.customer.CustomerRequest;
 import cz.osu.phoneappbackend.model.customer.Role;
 import cz.osu.phoneappbackend.model.exception.AlreadyExistsException;
+import cz.osu.phoneappbackend.model.exception.NotFoundException;
 import cz.osu.phoneappbackend.model.exception.UnAuthorizedException;
 import cz.osu.phoneappbackend.repository.CustomerRepository;
 import de.mkammerer.argon2.Argon2;
@@ -62,5 +63,9 @@ public class CustomerService {
 
     public List<String> getAllUsers(){
         return customerRepo.getAllCustomerNames();
+    }
+
+    public Customer getCustomerByUserName(String userName) {
+        return customerRepo.findByUserName(userName).orElseThrow(() -> new NotFoundException("User not found"));
     }
 }

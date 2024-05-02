@@ -1,4 +1,4 @@
-package cz.osu.phoneappbackend.model.conversation;
+package cz.osu.phoneappbackend.dto.conversation;
 
 import lombok.Builder;
 import lombok.Data;

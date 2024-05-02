@@ -1,10 +1,8 @@
 package cz.osu.phoneappbackend.model.conversation;
 
+import cz.osu.phoneappbackend.model.message.Message;
 import cz.osu.phoneappbackend.model.customer.Customer;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CustomerConversation {
+public class Conversation {
     @Id
     private String routingKey;
     private String topicName;
@@ -23,4 +21,6 @@ public class CustomerConversation {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Customer> customers;
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    private List<Message> messages;
 }

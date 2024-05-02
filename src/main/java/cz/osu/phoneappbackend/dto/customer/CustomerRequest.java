@@ -1,4 +1,4 @@
-package cz.osu.phoneappbackend.model.customer;
+package cz.osu.phoneappbackend.dto.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
