@@ -22,7 +22,7 @@ public class ConversationController {
         return ResponseEntity.ok("Conversation successfully created");
     }
 
-    @GetMapping("/conversation/{userName}")
+    @GetMapping("/get/{userName}")
     public ResponseEntity<List<CustomerConversationDTO>> getConversations(@PathVariable String userName) {
         return ResponseEntity.ok(conversationService.getAllConversations(userName));
     }
