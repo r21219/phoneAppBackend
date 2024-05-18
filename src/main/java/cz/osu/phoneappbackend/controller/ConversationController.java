@@ -1,7 +1,9 @@
 package cz.osu.phoneappbackend.controller;
 
+import cz.osu.phoneappbackend.dto.conversation.ConversationWindow;
 import cz.osu.phoneappbackend.dto.conversation.CreateConversationRequest;
-import cz.osu.phoneappbackend.dto.conversation.CustomerConversationDTO;
+import cz.osu.phoneappbackend.dto.conversation.ConversationItem;
+import cz.osu.phoneappbackend.dto.conversation.GetConversationWindow;
 import cz.osu.phoneappbackend.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,12 @@ public class ConversationController {
     }
 
     @GetMapping("/get/{userName}")
-    public ResponseEntity<List<CustomerConversationDTO>> getConversations(@PathVariable String userName) {
+    public ResponseEntity<List<ConversationItem>> getConversations(@PathVariable String userName) {
         return ResponseEntity.ok(conversationService.getAllConversations(userName));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<ConversationWindow> getConversations(@RequestBody GetConversationWindow getConversationWindow) {
+        return ResponseEntity.ok(conversationService.getFullConversationWindow(getConversationWindow.getRoutingKey()));
     }
 }

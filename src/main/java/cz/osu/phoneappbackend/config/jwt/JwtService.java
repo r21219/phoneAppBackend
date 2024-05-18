@@ -28,12 +28,13 @@ public class JwtService {
             Map<String,Object> extraClaims,
             UserDetails userDetails
     ){
+        Date expirationDate = new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date((System.currentTimeMillis())))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
+                .setExpiration(expirationDate)
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

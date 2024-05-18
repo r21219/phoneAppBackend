@@ -1,15 +1,17 @@
 package cz.osu.phoneappbackend.service;
 
+import cz.osu.phoneappbackend.dto.conversation.ConversationWindow;
 import cz.osu.phoneappbackend.model.ExchangeType;
 import cz.osu.phoneappbackend.model.ModelConvertor;
 import cz.osu.phoneappbackend.model.conversation.Conversation;
 import cz.osu.phoneappbackend.model.customer.Customer;
 import cz.osu.phoneappbackend.dto.conversation.CreateConversationRequest;
-import cz.osu.phoneappbackend.dto.conversation.CustomerConversationDTO;
+import cz.osu.phoneappbackend.dto.conversation.ConversationItem;
 import cz.osu.phoneappbackend.model.exception.NotFoundException;
 import cz.osu.phoneappbackend.model.rabbitMQ.RabbitMQConsumer;
 import cz.osu.phoneappbackend.repository.ConversationRepository;
 import cz.osu.phoneappbackend.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
@@ -58,13 +60,18 @@ public class ConversationService {
         }
     }
 
-    public List<CustomerConversationDTO> getAllConversations(String customerName){
-        return ModelConvertor.convertListCustomerConversationToDTO(conversationRepo
+    public List<ConversationItem> getAllConversations(String customerName){
+        return ModelConvertor.convertListConversationToConversationItemList(conversationRepo
                 .findAllByCustomers_UserName(customerName)
                 .orElseThrow(()-> new NotFoundException("Could not find any conversations for: " + customerName)));
     }
 
     public Conversation getConversationByRoutingKey(String routingKey) {
         return conversationRepo.findById(routingKey).orElseThrow(() ->new NotFoundException("Could not find conversation"));
+    }
+    @Transactional
+    public ConversationWindow getFullConversationWindow(String routingKey){
+        Conversation conversation = getConversationByRoutingKey(routingKey);
+        return ModelConvertor.convertConversationToWindow(conversation);
     }
 }

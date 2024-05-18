@@ -28,7 +28,7 @@ public class RabbitMQProducer {
 
         for (Customer customer : conversation.getCustomers()) {
             messagingTemplate.convertAndSendToUser(customer.getUsername(), "/topic/msg/" + customer.getUsername(),
-                    ModelConvertor.convertCustomerConversationToDTO(conversation));
+                    ModelConvertor.convertConversationToConversationItem(conversation));
         }
     }
 }

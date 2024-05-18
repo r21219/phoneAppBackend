@@ -63,3 +63,7 @@ public class RabbitMQConsumer {
         return userMessages.getOrDefault(userName, new ArrayList<>());
     }
 }
+//TODO send Notifications through rabbitMQ aka
+// 1.Connect to one ws like notification
+// 2. send a message to that one ws (through rabbitMQ)
+// 3. profit?
